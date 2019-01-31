@@ -92,4 +92,36 @@ When you want to build the AAR file, select the library module in the Project wi
 
 or the hammer button with the tool tip "Make Project"
 
+#### Implementing the android library in the flutter app
+- 6 : Open the android folder of the flutter project in android studio
+Add the compiled AAR (or JAR) file (the library must be already built):
+Click File > New > New Module.
+Click Import .JAR/.AAR Package then click Next.
+Enter the location of the compiled AAR or JAR file then click Finish.
 
+- 7 : Edit android/settings.gradle:
+    (Lets say `DynamsoftBarcodeReader` is the name of your aar file/library)
+edit this line if the name wasn't added already 
+`include ':app', ':DynamsoftBarcodeReader'`
+
+- 8 : Add the dependency to android\app\build.gradle:
+
+```
+dependencies {
+
+    androidTestCompile 'com.android.support:support-annotations:22.0.0'
+
+    androidTestCompile 'com.android.support.test:runner:0.5'
+
+    androidTestCompile 'com.android.support.test:rules:0.5'
+
+    compile project(':DynamsoftBarcodeReader')
+
+}
+```
+- 9 : Building Android Barcode Reader with Flutter
+Open AndroidManifest.xml to add permissions:
+
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
+Write Java code to invoke Dynamsoft Barcode APIs and send result message to the Flutter UI:
